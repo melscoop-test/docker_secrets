@@ -1,7 +1,6 @@
 name: test_build
 on:
   push
-
 jobs:
   build-image:
     name: Build VM image
