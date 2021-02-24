@@ -19,11 +19,6 @@ jobs:
       - name: Store GCP secret
 #        if: github.ref == 'refs/heads/main'
         run: echo ${GCP_SVC_JSON} > ${GOOGLE_APPLICATION_CREDENTIALS}
-      - name: Run Packer validate
-        run: packer validate -var "shared_scripts_dir=../../tools/packer" .
-      - name: Run Packer build
-#        if: github.ref == 'refs/heads/main'
-        run: packer build -var "shared_scripts_dir=../../tools/packer" .
       - name: Destroy GCP secret
         if: ${{ always() }}
         run: if [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ]; then shred -u -f ${GOOGLE_APPLICATION_CREDENTIALS}; fi
