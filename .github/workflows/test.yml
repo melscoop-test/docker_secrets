@@ -10,9 +10,6 @@ jobs:
       env:
         GCP_SVC_JSON: ${{ secrets.PACKER_RUNNER_SVC }}
         GOOGLE_APPLICATION_CREDENTIALS: '/tmp/packer'
-    defaults:
-      run:
-        working-directory: infrastructure/abproxy
     steps:
       - name: Check out code
         uses: actions/checkout@v2
