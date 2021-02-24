@@ -1,0 +1,30 @@
+name: test_build
+on:
+  push
+
+jobs:
+  build-image:
+    name: Build VM image
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/packer:1.7.0
+      env:
+        GCP_SVC_JSON: ${{ secrets.PACKER_RUNNER_SVC }}
+        GOOGLE_APPLICATION_CREDENTIALS: '/tmp/packer'
+    defaults:
+      run:
+        working-directory: infrastructure/abproxy
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Store GCP secret
+#        if: github.ref == 'refs/heads/main'
+        run: echo ${GCP_SVC_JSON} > ${GOOGLE_APPLICATION_CREDENTIALS}
+      - name: Run Packer validate
+        run: packer validate -var "shared_scripts_dir=../../tools/packer" .
+      - name: Run Packer build
+#        if: github.ref == 'refs/heads/main'
+        run: packer build -var "shared_scripts_dir=../../tools/packer" .
+      - name: Destroy GCP secret
+        if: ${{ always() }}
+        run: if [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ]; then shred -u -f ${GOOGLE_APPLICATION_CREDENTIALS}; fi
