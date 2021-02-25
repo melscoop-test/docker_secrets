@@ -3,7 +3,7 @@ on:
   push
 jobs:
   build-image:
-    name: Build VM image
+    name: Build VM image ok
     runs-on: ubuntu-latest
     container:
       image: hashicorp/packer:1.7.0
