@@ -20,6 +20,6 @@ jobs:
         if: ${{ always() }}
         run: if [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ]; then shred -u -f ${GOOGLE_APPLICATION_CREDENTIALS}; fi
       - name: testing os image info
-        run: echo "The operating system on the runner is $env:RUNNER_OS, the runner name is $env:RUNNER_NAME and the tool cache directory is $env:RUNNER_TOOL_CACHE"
+        run: echo "The operating system on the runner is $RUNNER_OS, the runner name is $RUNNER_NAME and the tool cache directory is $RUNNER_TOOL_CACHE"
       - name: showing tool cache directory content
-        run: ls $env:RUNNER_TOOL_CACHE
+        run: ls $RUNNER_TOOL_CACHE
